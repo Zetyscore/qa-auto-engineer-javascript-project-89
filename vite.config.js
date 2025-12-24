@@ -7,11 +7,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './vitest.setup.js',
-    css: {
-      modules: {
-        classNameStrategy: 'non-scoped',
-      },
-    },
+    css: true,
     server: {
       deps: {
         inline: ['@hexlet/chatbot-v2'],
