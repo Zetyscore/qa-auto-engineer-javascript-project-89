@@ -22,6 +22,7 @@ export class ChatbotWidgetPage {
     return screen.getByRole('dialog')
   }
 
+  // Действия
   async open() {
     if (!this.user) throw new Error('ChatbotWidgetPage.open() requires userEvent instance')
     await this.user.click(await this.findToggleButton())
@@ -45,6 +46,41 @@ export class ChatbotWidgetPage {
     fireEvent.click(await screen.findByRole('button', { name: nameOrRegex }))
   }
 
+  async startConversation() {
+    await this.open()
+    await this.clickButton(/^Start$/i)
+  }
+
+  // Проверки состояния
+  isOpen() {
+    return screen.queryByRole('dialog') !== null
+  }
+
+  isClosed() {
+    return screen.queryByRole('dialog') === null
+  }
+
+  isMessageVisible(textOrRegex) {
+    return screen.queryByText(textOrRegex) !== null
+  }
+
+  isButtonVisible(nameOrRegex) {
+    return screen.queryByRole('button', { name: nameOrRegex }) !== null
+  }
+
+  hasToggleButton() {
+    return screen.queryByRole('button', { name: /открыть чат|open chat/i }) !== null
+  }
+
+  hasCloseButton() {
+    return screen.queryByRole('button', { name: /close/i }) !== null
+  }
+
+  hasDialog() {
+    return screen.queryByRole('dialog') !== null
+  }
+
+  // Ожидания (chainable)
   expectOpen() {
     expect(this.dialog).toBeInTheDocument()
     return this
@@ -60,8 +96,23 @@ export class ChatbotWidgetPage {
     return this
   }
 
+  expectMessageNotVisible(textOrRegex) {
+    expect(screen.queryByText(textOrRegex)).not.toBeInTheDocument()
+    return this
+  }
+
   expectButtonVisible(nameOrRegex) {
     expect(screen.getByRole('button', { name: nameOrRegex })).toBeInTheDocument()
+    return this
+  }
+
+  expectButtonNotVisible(nameOrRegex) {
+    expect(screen.queryByRole('button', { name: nameOrRegex })).not.toBeInTheDocument()
+    return this
+  }
+
+  expectDialogHasClass(className) {
+    expect(this.dialog).toHaveClass(className)
     return this
   }
 }

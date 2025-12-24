@@ -6,6 +6,7 @@ export class RegistrationFormPage {
     this.user = user
   }
 
+  // Элементы формы
   get email() {
     return screen.getByLabelText(/email/i)
   }
@@ -38,6 +39,11 @@ export class RegistrationFormPage {
     return screen.getByRole('table')
   }
 
+  get backButton() {
+    return screen.getByRole('button', { name: /назад/i })
+  }
+
+  // Действия
   async fill(fields) {
     if (fields.email != null) await this.user.type(this.email, fields.email)
     if (fields.password != null) await this.user.type(this.password, fields.password)
@@ -51,13 +57,55 @@ export class RegistrationFormPage {
     await this.user.click(this.submit)
   }
 
+  async goBackToForm() {
+    await this.user.click(this.backButton)
+  }
+
+  // Проверки состояния
+  isFormVisible() {
+    return screen.queryByRole('button', { name: /зарегистрироваться/i }) !== null
+  }
+
+  isResultsVisible() {
+    return screen.queryByRole('table') !== null
+  }
+
+  hasBackButton() {
+    return screen.queryByRole('button', { name: /назад/i }) !== null
+  }
+
+  hasTable() {
+    return screen.queryByRole('table') !== null
+  }
+
+  // Ожидания (chainable)
+  expectFormVisible() {
+    expect(this.submit).toBeInTheDocument()
+    return this
+  }
+
   expectResultsVisible() {
     expect(this.table).toBeInTheDocument()
     return this
   }
 
+  expectResultsNotVisible() {
+    expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    return this
+  }
+
   expectTableContains(text) {
     expect(within(this.table).getByText(text)).toBeInTheDocument()
+    return this
+  }
+
+  expectBackButtonVisible() {
+    expect(this.backButton).toBeInTheDocument()
+    return this
+  }
+
+  expectBackButtonNotVisible() {
+    expect(screen.queryByRole('button', { name: /назад/i })).not.toBeInTheDocument()
     return this
   }
 }
