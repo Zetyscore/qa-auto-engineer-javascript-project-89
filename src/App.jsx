@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import Widget from '@hexlet/chatbot-v2'
 import '@hexlet/chatbot-v2/styles'
-import getWidget from '@hexlet/chatbot-v2'
 import simpleSteps from '../__fixtures__/simpleSteps.js'
 
 const App = () => {
@@ -164,7 +164,7 @@ const App = () => {
   return (
     <>
       {submittingState === 'fillingForm' ? renderForm() : renderResult()}
-      {getWidget(simpleSteps)}
+      {Widget(simpleSteps)}
     </>
   )
 }

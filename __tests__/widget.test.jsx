@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import getWidget from '@hexlet/chatbot-v2'
+import Widget from '@hexlet/chatbot-v2'
 import simpleSteps from '../__fixtures__/simpleSteps.js'
 import invalidSteps from '../__fixtures__/invalidSteps.js'
 import { setupUser } from './setup.js'
@@ -10,7 +10,7 @@ describe('Chatbot Widget', () => {
   describe('Базовый функционал', () => {
     it('отображает кнопку открытия чата', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       expect(widget.hasToggleButton()).toBe(true)
@@ -18,7 +18,7 @@ describe('Chatbot Widget', () => {
 
     it('отображает первое сообщение и кнопки после открытия чата', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       await widget.open()
@@ -28,7 +28,7 @@ describe('Chatbot Widget', () => {
     })
 
     it('рендерится без ошибок', () => {
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       expect(document.body).toBeTruthy()
     })
   })
@@ -36,7 +36,7 @@ describe('Chatbot Widget', () => {
   describe('Модальное окно', () => {
     it('открывает модальное окно при клике на кнопку', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       await widget.open()
@@ -47,7 +47,7 @@ describe('Chatbot Widget', () => {
 
     it('закрывает модальное окно при клике на кнопку закрытия', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       await widget.open()
@@ -61,7 +61,7 @@ describe('Chatbot Widget', () => {
   describe('Навигация между шагами', () => {
     it('переходит на следующий шаг при клике на кнопку', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       await widget.open()
@@ -73,7 +73,7 @@ describe('Chatbot Widget', () => {
 
     it('поддерживает навигацию назад', async () => {
       const user = setupUser()
-      render(getWidget(simpleSteps))
+      render(Widget(simpleSteps))
       const widget = new ChatbotWidgetPage({ user })
 
       await widget.open()
@@ -87,7 +87,7 @@ describe('Chatbot Widget', () => {
 
   describe('Краевые случаи', () => {
     it('отображает виджет с некорректными ссылками на шаги', async () => {
-      render(getWidget(invalidSteps))
+      render(Widget(invalidSteps))
       const widget = new ChatbotWidgetPage()
 
       await widget.openWithFireEvent()
@@ -97,7 +97,7 @@ describe('Chatbot Widget', () => {
     })
 
     it('обрабатывает клик на кнопку с несуществующим nextStepId', async () => {
-      render(getWidget(invalidSteps))
+      render(Widget(invalidSteps))
       const widget = new ChatbotWidgetPage()
 
       await widget.openWithFireEvent()
@@ -108,7 +108,7 @@ describe('Chatbot Widget', () => {
 
     it('отображается с пустой конфигурацией', async () => {
       const user = setupUser()
-      render(getWidget([]))
+      render(Widget([]))
       const widget = new ChatbotWidgetPage({ user })
 
       expect(await widget.findToggleButton()).toBeInTheDocument()
@@ -123,7 +123,7 @@ describe('Chatbot Widget', () => {
         },
       ]
 
-      render(getWidget(steps))
+      render(Widget(steps))
       const widget = new ChatbotWidgetPage()
       await expect(widget.openWithFireEvent()).rejects.toThrow()
     })
