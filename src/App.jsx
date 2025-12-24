@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import '@hexlet/chatbot-v2/styles'
 import getWidget from '@hexlet/chatbot-v2'
 import simpleSteps from '../__fixtures__/simpleSteps.js'
 
