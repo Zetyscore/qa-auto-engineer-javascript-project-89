@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Widget from '@hexlet/chatbot-v2'
-import '@hexlet/chatbot-v2/styles'
 import simpleSteps from '../__fixtures__/simpleSteps.js'
 
 const App = () => {
@@ -37,7 +36,7 @@ const App = () => {
     acceptRules: 'Принять правила',
   }
 
-  const renderRow = (key) => (
+  const renderRow = key => (
     <tr key={key}>
       <td>{enToRus[key]}</td>
       <td>{form[key].toString()}</td>
